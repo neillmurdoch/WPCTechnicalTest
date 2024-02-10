@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPCTechnicalTest", "WPCTechnicalTest\WPCTechnicalTest.csproj", "{0A674E41-EFA2-46C1-9CEB-05E2C4A941B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPCTechnicalTest.UnitTests", "WPCTechnicalTest.UnitTests\WPCTechnicalTest.UnitTests.csproj", "{4354962B-7495-4F73-BFD7-BE990C8C48CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A674E41-EFA2-46C1-9CEB-05E2C4A941B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A674E41-EFA2-46C1-9CEB-05E2C4A941B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A674E41-EFA2-46C1-9CEB-05E2C4A941B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A674E41-EFA2-46C1-9CEB-05E2C4A941B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4354962B-7495-4F73-BFD7-BE990C8C48CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4354962B-7495-4F73-BFD7-BE990C8C48CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4354962B-7495-4F73-BFD7-BE990C8C48CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4354962B-7495-4F73-BFD7-BE990C8C48CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AD5729A-A74C-4E67-B7A5-6D1B3C4623E2}
+	EndGlobalSection
+EndGlobal
