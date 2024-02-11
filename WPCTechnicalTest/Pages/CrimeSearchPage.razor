@@ -1,6 +1,13 @@
 ﻿@page "/crimesearch"
 
-<PageTitle>Crime Search</PageTitle>
+@using WPCTechnicalTest.Components
+
+<MudContainer>
+    <LastCrimeDate />
+    <CrimeSearch />
+</MudContainer>
+
+@* <PageTitle>Crime Search</PageTitle>
 
 <h1>Crime Search</h1>
 
@@ -10,6 +17,6 @@
 @* <button class="btn btn-primary" @onclick="IncrementCount">Click me</button> *@
 
 
-<EditForm>
+@*<EditForm>
 
-</EditForm>
+</EditForm> *@
