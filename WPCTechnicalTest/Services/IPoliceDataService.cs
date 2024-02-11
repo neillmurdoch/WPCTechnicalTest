@@ -1,11 +1,9 @@
-﻿
-using WPCTechnicalTest.Dto;
+﻿using WPCTechnicalTest.Dto;
 
 namespace WPCTechnicalTest.Services;
 
 public interface IPoliceDataService
 {
-    //Task<IEnumerable<CrimeDto>> GetCrimeDataByLocationAndDate(string latitude, string logitude, string date);
-    Task<IEnumerable<CrimeDto>> GetCrimeDataByLocationAndDate(SearchDto searchCriteria);
-    Task<string> GetLastCrimeUpdatedDate();
+    Task<LastCrimeDateDto?> GetLastCrimeUpdatedDate(CancellationToken cancellationToken);
+    Task<List<CrimeDto>?> GetCrimeDataByLocationAndDate(SearchCriteriaDto searchCriteria, CancellationToken cancellationToken);
 }

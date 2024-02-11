@@ -14,15 +14,4 @@ public class CrimeDto
     [JsonPropertyName("month")] public string? Month { get; set; }
     [JsonPropertyName("outcome_status")] public object? OutcomeStatus { get; set; }
     [JsonPropertyName("persistent_id")] public string? PersistentId { get; set; }
-
-    //public string category { get; set; }
-    //public string context { get; set; }
-    //public int id { get; set; }
-    //public LocationDto location { get; set; }
-    //public string location_subtype { get; set; }
-    //public string location_type { get; set; }
-    //public string month { get; set; }
-    //public object outcome_status { get; set; }
-    //public string persistent_id { get; set; }
-
 }

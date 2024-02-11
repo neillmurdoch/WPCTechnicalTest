@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using WPCTechnicalTest.Dto;
+
+[assembly: InternalsVisibleTo("WPCTechnicalTest.UnitTests")]
 
 namespace WPCTechnicalTest.Services;
 
@@ -8,37 +11,70 @@ internal class PoliceDataService(IHttpClientFactory httpClientFactory) : IPolice
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient("PoliceData");
 
-    public async Task<string> GetLastCrimeUpdatedDate()
+    /// <summary>
+    /// Return the date that the crime data was last updated
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>LastCrimeDateDto with a LastCrimeDate property</returns>
+    public async Task<LastCrimeDateDto?> GetLastCrimeUpdatedDate(CancellationToken cancellationToken)
     {
         const string apiUrl = "api/crime-last-updated";
 
-        var response = await _httpClient.GetAsync(apiUrl);//, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        var response = await _httpClient.GetAsync(apiUrl, cancellationToken);
+        try
+        {
+            response.EnsureSuccessStatusCode();
 
-        var body = await response.Content.ReadAsStringAsync();
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);          
+            var result = JsonSerializer.Deserialize<LastCrimeDateDto>(body);
 
-        return body;
+            return result;
+        }
+        catch (Exception)
+        {
+            // Log error
+
+
+            return default;
+        }
     }
 
-    //public async Task<IEnumerable<CrimeDto>> GetCrimeDataByLocationAndDate(string latitude, string longitude, string date)
-    public async Task<IEnumerable<CrimeDto>> GetCrimeDataByLocationAndDate(SearchDto searchCriteria)
+    /// <summary>
+    /// Accepts search criteria (latitude, longitude and date), and return a list of crimes committed with a mile radius of the location, for that month
+    /// </summary>
+    /// <param name="searchCriteria"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A list of crime objects for the requested location and date</returns>
+    public async Task<List<CrimeDto>?> GetCrimeDataByLocationAndDate(SearchCriteriaDto searchCriteria, CancellationToken cancellationToken)
     {
-        //var parameters = BuildParameterDictionary(latitude, longitude, date);
         var parameters = BuildParameterDictionary(searchCriteria);
 
         var apiUrl = QueryHelpers.AddQueryString("api/crimes-street/all-crime", parameters);
         
-        var response = await _httpClient.GetAsync(apiUrl);//, cancellationToken);
+        var response = await _httpClient.GetAsync(apiUrl, cancellationToken);
         response.EnsureSuccessStatusCode();
 
-        var body = await response.Content.ReadAsStringAsync();
-        var results = JsonSerializer.Deserialize<IEnumerable<CrimeDto>>(body);
+        try
+        {
+            response.EnsureSuccessStatusCode();
 
-        return results;
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            var result = JsonSerializer.Deserialize<List<CrimeDto>>(body);
+
+            return result;
+        }
+        catch (Exception)
+        {
+            // Log error
+
+
+            return default;
+        }
     }
 
-    //private Dictionary<string, string?> BuildParameterDictionary(string latitude, string longitude, string date)
-    private Dictionary<string, string?> BuildParameterDictionary(SearchDto searchCriteria)
+    #region Helpers
+
+    private static Dictionary<string, string?> BuildParameterDictionary(SearchCriteriaDto searchCriteria)
     {
         var parameters = new Dictionary<string, string?>
         {
@@ -48,4 +84,6 @@ internal class PoliceDataService(IHttpClientFactory httpClientFactory) : IPolice
         };
         return parameters;
     }
+
+    #endregion
 }

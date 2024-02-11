@@ -1,6 +1,9 @@
-﻿namespace WPCTechnicalTest.Dto;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public class SearchDto
+namespace WPCTechnicalTest.Dto;
+
+[ExcludeFromCodeCoverage]
+public class SearchCriteriaDto
 {
     public string? Latitude { get; set; } = default;
     public string? Longitude { get; set; } = default;
