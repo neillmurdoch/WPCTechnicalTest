@@ -1,14 +1,21 @@
 ﻿<MudPaper>
-    @if(UpdateDateNotAvailable)
+    @if(Initializing)
     {
-        <MudAlert Severity="Severity.Warning" Class="my-4">
-            Unable to determine the last update date for the crime data
-        </MudAlert>
+        <Spinner />
     }
     else
     {
-        <MudAlert Severity="Severity.Info" Class="my-4">
-            Crime data last updated on: <strong>@LastUpdateDate</strong>
-        </MudAlert>
+        @if(UpdateDateNotAvailable)
+        {
+            <MudAlert Severity="Severity.Warning" Class="my-4">
+                Unable to determine the last update date for the crime data
+            </MudAlert>
+        }
+        else
+        {
+            <MudAlert Severity="Severity.Info" Class="my-4">
+                Crime data last updated on: <strong>@LastUpdateDate</strong>
+            </MudAlert>
+        }
     }
 </MudPaper>

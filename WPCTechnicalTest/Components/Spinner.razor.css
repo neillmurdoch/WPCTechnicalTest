@@ -1,0 +1,12 @@
+﻿div.spinner {
+    display: flex;
+    align-content: center;
+    height: 100%;
+    justify-content: space-around;
+}
+div.spinner > span {
+    font-size: 16pt;
+    width: 36px;
+    height: 36px;
+    color: #39657C;
+}

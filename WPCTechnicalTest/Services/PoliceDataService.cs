@@ -27,14 +27,15 @@ internal class PoliceDataService(IHttpClientFactory httpClientFactory) : IPolice
 
             var body = await response.Content.ReadAsStringAsync(cancellationToken);          
             var result = JsonSerializer.Deserialize<LastCrimeDateDto>(body);
+            if (result?.LastCrimeDate == DateTime.MinValue)
+            {
+                return default;
+            }
 
             return result;
         }
-        catch (Exception)
-        {
-            // Log error
-
-
+        catch
+        { 
             return default;
         }
     }
@@ -47,12 +48,16 @@ internal class PoliceDataService(IHttpClientFactory httpClientFactory) : IPolice
     /// <returns>A list of crime objects for the requested location and date</returns>
     public async Task<List<CrimeDto>?> GetCrimeDataByLocationAndDate(SearchCriteriaDto searchCriteria, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(searchCriteria);
+        ArgumentNullException.ThrowIfNull(searchCriteria.Latitude);
+        ArgumentNullException.ThrowIfNull(searchCriteria.Longitude);
+        ArgumentNullException.ThrowIfNull(searchCriteria.Date);
+
         var parameters = BuildParameterDictionary(searchCriteria);
 
         var apiUrl = QueryHelpers.AddQueryString("api/crimes-street/all-crime", parameters);
         
         var response = await _httpClient.GetAsync(apiUrl, cancellationToken);
-        response.EnsureSuccessStatusCode();
 
         try
         {
@@ -63,11 +68,8 @@ internal class PoliceDataService(IHttpClientFactory httpClientFactory) : IPolice
 
             return result;
         }
-        catch (Exception)
+        catch
         {
-            // Log error
-
-
             return default;
         }
     }

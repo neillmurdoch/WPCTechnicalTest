@@ -30,17 +30,52 @@ public class PoliceDataServiceTests
 
     #region GetLastCrimeUpdatedDate
 
-    // TODO - Invalid return tests
+    [Fact]
+    public async Task GetLastCrimeUpdatedDate_ApiReturnsBadRequest_NullReturned()
+    {
+        // Arrange
+        const string responseContent = "{\"date\":\"2023-12-01\"}";
+
+        var response = new HttpResponseMessage
+        {
+            StatusCode = System.Net.HttpStatusCode.BadRequest,
+            Content = null
+        };
+        BuildHandlerMock(response);
+
+        // Act
+        var result = await _policeDataService.GetLastCrimeUpdatedDate(CancellationToken.None);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetLastCrimeUpdatedDate_ApiReturnsIncorrectFormatData_NullReturned()
+    {
+        // Arrange
+        const string responseContent = "{\"Nodate\":\"2023-12-01\"}";
+
+        var response = new HttpResponseMessage
+        {
+            StatusCode = System.Net.HttpStatusCode.OK,
+            Content = new StringContent(responseContent)
+        };
+        BuildHandlerMock(response);
+
+        // Act
+        var result = await _policeDataService.GetLastCrimeUpdatedDate(CancellationToken.None);
+
+        // Assert
+        result.Should().BeNull();
+    }
 
     [Fact]
     public async Task GetLastCrimeUpdatedDate_ApiReturnsValidData_LastCrimeDateDtoReturned()
     {
         // Arrange
         const string responseContent = "{\"date\":\"2023-12-01\"}";
-        var expectedResponseDate = new LastCrimeDateDto()
-        {
-            LastCrimeDate = new DateTime(2023, 12, 01)
-        };
+        var expectedResponseDate = new DateTime(2023, 12, 01);
 
         var response = new HttpResponseMessage
         {
@@ -54,14 +89,65 @@ public class PoliceDataServiceTests
 
         // Assert
         result.Should().NotBeNull().And.BeOfType<LastCrimeDateDto>();
-        result.LastCrimeDate.Should().Be(expectedResponseDate.LastCrimeDate);
+        result.LastCrimeDate.Should().Be(expectedResponseDate);
     }
 
     #endregion
 
     #region GetCrimeDataByLocationAndDate
 
-    // TODO - Invalid return tests + no results tests
+    [Fact]
+    public async Task GetCrimeDataByLocationAndDate_ApiReturnsBadRequest_NullReturned()
+    {
+        // Arrange
+        var response = new HttpResponseMessage
+        {
+            StatusCode = System.Net.HttpStatusCode.BadRequest,
+            Content = null
+        };
+        BuildHandlerMock(response);
+
+        var searchCriteria = new SearchCriteriaDto
+        {
+            Latitude = "51.44237",
+            Longitude = "-2.49810",
+            Date = "2021-01"
+        };
+
+        // Act
+        var result = await _policeDataService.GetCrimeDataByLocationAndDate(searchCriteria, CancellationToken.None);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetCrimeDataByLocationAndDate_ApiReturnsNoResults_EmptyListReturned()
+    {
+        // Arrange
+        var responseContent = "[]";
+
+        var response = new HttpResponseMessage
+        {
+            StatusCode = System.Net.HttpStatusCode.OK,
+            Content = new StringContent(responseContent)
+        };
+        BuildHandlerMock(response);
+
+        var searchCriteria = new SearchCriteriaDto
+        {
+            Latitude = "51.44237",
+            Longitude = "-2.49810",
+            Date = "2021-01"
+        };
+
+        // Act
+        var result = await _policeDataService.GetCrimeDataByLocationAndDate(searchCriteria, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<List<CrimeDto>>();
+        result.Should().BeEmpty();
+    }
 
     [Fact]
     public async Task GetCrimeDataByLocationAndDate_ApiReturnsValidData_ListOfCrimeDtos()
@@ -89,8 +175,6 @@ public class PoliceDataServiceTests
         // Assert
         result.Should().BeOfType<List<CrimeDto>>();
         result.Should().NotBeEmpty().And.HaveCount(2);
-
-
     }
 
     #endregion

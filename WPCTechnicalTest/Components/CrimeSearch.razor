@@ -1,4 +1,11 @@
 ﻿<MudContainer>
-    <SearchCriteria />
-    <ResultSummary />
+    <SearchCriteria OnSearch="OnSearch" />
+    @if (SearchNotAvailable)
+    {
+        <MudAlert Severity="Severity.Warning" Class="my-4">
+            An error occurred searching for crime data
+        </MudAlert>
+    }
+    <MudDivider />
+    <ResultSummary CrimesSummary="CrimesSummary" LoadingResults="LoadingResults" SearchPerformed="SearchPerformed" />
 </MudContainer>

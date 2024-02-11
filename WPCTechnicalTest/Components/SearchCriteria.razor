@@ -1,5 +1,32 @@
-﻿<h3>SearchCriteria</h3>
+﻿@using System.ComponentModel.DataAnnotations
 
-@code {
+<MudPaper Class="pa-4">
 
-}
+    <MudText Typo="Typo.h6">Enter search criteria:</MudText>
+    <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard>
+            <MudCardContent>
+                <MudStack Row="true">
+                    <MudNumericField 
+                        Variant="Variant.Text" Margin="Margin.Dense"
+                        Label="Latitude" HelperText="Valid for UK between 49 and 61"
+                        @bind-Value="model.Latitude" For="@(() => model.Latitude)"/>
+                    <MudNumericField 
+                        Variant="Variant.Text" Margin="Margin.Dense"
+                        Label="Longitude" HelperText="Valid for UK between -8 and 2"
+                        @bind-Value="model.Longitude" For="@(() => model.Longitude)" />
+                    <MudTextField 
+                        Variant="Variant.Text" Margin="Margin.Dense"
+                        Label="Date" HelperText="Enter a month from the last year in the format YYYY-MM" 
+                        @bind-Value=model.Date For="@(() => model.Date)" />
+                </MudStack>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Search</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+
+</MudPaper>
+ 

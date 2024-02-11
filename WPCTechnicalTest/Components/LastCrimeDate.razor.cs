@@ -7,6 +7,7 @@ public partial class LastCrimeDate
 {
     [Inject] IPoliceDataService PoliceDataService { get; set; } = default!;
 
+    internal bool Initializing { get; set; } = true;
     internal string LastUpdateDate { get; set; } = default!;
     internal bool UpdateDateNotAvailable { get; set; }
 
@@ -22,5 +23,6 @@ public partial class LastCrimeDate
             LastUpdateDate = result.LastCrimeDate.ToLongDateString();
             UpdateDateNotAvailable = false;
         }
+        Initializing = false;
     }
 }

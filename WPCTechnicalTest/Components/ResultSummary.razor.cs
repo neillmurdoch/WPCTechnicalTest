@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
-using WPCTechnicalTest.Services;
+using WPCTechnicalTest.ViewModels;
 
 namespace WPCTechnicalTest.Components;
 
 public partial class ResultSummary
 {
-    [Inject] IPoliceDataService PoliceDataService { get; set; } = default!;
-
-    protected async override Task OnInitializedAsync()
-    {
-
-
-
-    }
+    [Parameter] public List<CategorySummaryViewModel>? CrimesSummary { get; set; } = null;
+    [Parameter] public bool LoadingResults { get; set; } = true;
+    [Parameter] public bool SearchPerformed { get; set; } = false;
 }
