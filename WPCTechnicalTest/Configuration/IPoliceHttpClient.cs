@@ -1,7 +1,7 @@
 ﻿
 namespace WPCTechnicalTest.Configuration;
 
-public interface IPoliceHttpClient
+internal interface IPoliceHttpClient
 {
     HttpClient HttpClient { get; }
 }

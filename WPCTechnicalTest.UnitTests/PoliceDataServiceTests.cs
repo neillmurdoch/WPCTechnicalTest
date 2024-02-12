@@ -34,8 +34,6 @@ public class PoliceDataServiceTests
     public async Task GetLastCrimeUpdatedDate_ApiReturnsBadRequest_NullReturned()
     {
         // Arrange
-        const string responseContent = "{\"date\":\"2023-12-01\"}";
-
         var response = new HttpResponseMessage
         {
             StatusCode = System.Net.HttpStatusCode.BadRequest,

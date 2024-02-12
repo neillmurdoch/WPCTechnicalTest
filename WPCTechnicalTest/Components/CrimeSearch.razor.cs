@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Data;
 using WPCTechnicalTest.Dto;
+using WPCTechnicalTest.Helpers;
 using WPCTechnicalTest.Services;
 using WPCTechnicalTest.ViewModels;
 
@@ -9,6 +9,7 @@ namespace WPCTechnicalTest.Components;
 public partial class CrimeSearch
 {
     [Inject] IPoliceDataService PoliceDataService { get; set; } = default!;
+    [Inject] ICrimeSearchHelper CrimeSearchHelper { get; set; } = default!;
 
     internal List<CategorySummaryViewModel>? CrimesSummary { get; set; }
     internal bool LoadingResults { get; set; }
@@ -34,7 +35,7 @@ public partial class CrimeSearch
         }
         else
         {
-            CrimesSummary = MapResultsToCategorySummaryViewModels(results);
+            CrimesSummary = CrimeSearchHelper.MapResultsToCategorySummaryViewModels(results);
         }
 
         LoadingResults = false;
@@ -42,27 +43,5 @@ public partial class CrimeSearch
 
         // This will re-render any child components with linked parameters.
         StateHasChanged();
-    }
-
-    private List<CategorySummaryViewModel> MapResultsToCategorySummaryViewModels(List<CrimeDto>? results)
-    {
-        if (results == null) return [];
-
-        var groups = results
-            .GroupBy(c => new { c.Category })
-            .Select(c => new { c.Key.Category, Count = c.Count() });
-
-        var viewModels = new List<CategorySummaryViewModel>();
-
-        foreach (var group in groups)
-        {
-            viewModels.Add(new CategorySummaryViewModel()
-            {
-                Category = group.Category == null ? "Unknown" : group.Category,
-                Count = group.Count
-            });
-        }
-
-        return viewModels;
     }
 }

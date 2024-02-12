@@ -3,26 +3,34 @@
 <MudPaper Class="pa-4">
 
     <MudText Typo="Typo.h6">Enter search criteria:</MudText>
-    <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <EditForm Model="@_model" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
         <MudCard>
             <MudCardContent>
                 <MudStack Row="true">
                     <MudNumericField 
-                        Variant="Variant.Text" Margin="Margin.Dense"
+                        Variant="Variant.Text" Margin="Margin.Dense" HideSpinButtons="true"
                         Label="Latitude" HelperText="Valid for UK between 49 and 61"
-                        @bind-Value="model.Latitude" For="@(() => model.Latitude)"/>
+                        @bind-Value="_model.Latitude" For="@(() => _model.Latitude)"/>
                     <MudNumericField 
-                        Variant="Variant.Text" Margin="Margin.Dense"
+                        Variant="Variant.Text" Margin="Margin.Dense" HideSpinButtons="true"
                         Label="Longitude" HelperText="Valid for UK between -8 and 2"
-                        @bind-Value="model.Longitude" For="@(() => model.Longitude)" />
-                    <MudTextField 
-                        Variant="Variant.Text" Margin="Margin.Dense"
-                        Label="Date" HelperText="Enter a month from the last year in the format YYYY-MM" 
-                        @bind-Value=model.Date For="@(() => model.Date)" />
+                        @bind-Value="_model.Longitude" For="@(() => _model.Longitude)" />
+                    <MudSelect 
+                        id="date" T="string"
+                        @bind-Value="_model.Date"
+                        For="@(() => _model.Date)"
+                        Label="Date" 
+                        AnchorOrigin="Origin.BottomCenter" Dense="true" Variant="Variant.Text" Margin="Margin.Dense" >
+                        @foreach(var dateString in _availableDates!)
+                        {
+                            <MudSelectItem Value="@dateString">@dateString</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudStack>
             </MudCardContent>
             <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Dark" OnClick="ResetTestData">Load Test Criteria</MudButton>
                 <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Search</MudButton>
             </MudCardActions>
         </MudCard>
